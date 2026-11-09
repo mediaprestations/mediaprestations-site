@@ -3,7 +3,7 @@
 
 backend:
   name: github
-  repo: COMPTE-GITHUB/mediaprestations-site   # <- à remplacer par votre compte GitHub
+  repo: mediaprestations/mediaprestations-site
   branch: main
   commit_messages:
     create: "Ajout : {{slug}}"
