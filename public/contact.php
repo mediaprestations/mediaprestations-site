@@ -1,9 +1,10 @@
 <?php
 // Formulaire de contact Média Prestations — fonctionne sur l'hébergement OVH (fonction mail()).
 // >>> Adresse qui reçoit les demandes de devis :
-const DESTINATAIRE = 'f.bergeron@mediaprestations.com';
+// (écrite en morceaux pour ne pas être aspirée par les robots qui lisent GitHub)
+define('DESTINATAIRE', 'f.bergeron' . '@' . 'mediaprestations' . '.com');
 // >>> Expéditeur technique : doit être une adresse du domaine hébergé chez OVH.
-const EXPEDITEUR = 'site@mediaprestations.fr';
+define('EXPEDITEUR', 'site' . '@' . 'mediaprestations.fr');
 
 function retour($ok) {
   header('Location: /?envoye=' . ($ok ? '1' : '0') . '#contact', true, 303);
