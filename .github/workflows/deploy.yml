@@ -5,12 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 concurrency:
   group: deploy
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -23,10 +20,13 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - name: Publier sur la branche deploy
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Envoyer le site chez OVH (SFTP)
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: deploy
-          publish_dir: ./dist
-          commit_message: "Mise en ligne"
+          server: ${{ secrets.FTP_SERVER }}
+          port: 22
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          sftp_only: true
+          local_path: './dist/*'
+          remote_path: '/home/mediapreh/www'
