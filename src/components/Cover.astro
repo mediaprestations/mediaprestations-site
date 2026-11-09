@@ -27,7 +27,7 @@ const Tag = href ? 'a' : 'div';
     <div class="cover__meta">
       {d.numero && <span>N°{d.numero}</span>}
       <span>· {d.categorie}</span>
-      {tag && <span class="tag">{tag} ↗</span>}
     </div>
+    <div class="cover__action">{tag && <span class="tag">{tag} ↗</span>}</div>
   </div>
 </Tag>
