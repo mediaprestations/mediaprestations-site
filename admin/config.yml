@@ -1,0 +1,85 @@
+# Espace admin Média Prestations (Sveltia CMS)
+# Connexion : bouton « Se connecter avec un jeton d'accès » (voir GUIDE-MISE-EN-LIGNE.md)
+
+backend:
+  name: github
+  repo: COMPTE-GITHUB/mediaprestations-site   # <- à remplacer par votre compte GitHub
+  branch: main
+  commit_messages:
+    create: "Ajout : {{slug}}"
+    update: "Modification : {{slug}}"
+    delete: "Suppression : {{slug}}"
+    uploadMedia: "Image : {{path}}"
+    deleteMedia: "Image supprimée : {{path}}"
+
+site_url: https://mediaprestations.fr
+display_url: https://mediaprestations.fr
+
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: realisations
+    label: Réalisations
+    label_singular: Parution
+    description: Chaque fiche = une couverture affichée sur le site. Cochez « Afficher sur l'accueil » pour la mettre en avant.
+    folder: src/content/realisations
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    slug: "{{titre}}-{{numero}}"
+    media_folder: ""
+    public_folder: ""
+    thumbnail: couverture
+    summary: "{{titre}} n°{{numero}} — {{categorie}}"
+    sortable_fields: [date, titre]
+    view_groups:
+      - { label: Catégorie, field: categorie }
+    fields:
+      - { label: "Titre du support", name: titre, widget: string, hint: "Ex. : L'Esprit du Judo" }
+      - { label: "Numéro", name: numero, widget: string, required: false, hint: "Juste le chiffre, ex. 124. Laisser vide pour un livre ou une plaquette." }
+      - label: Catégorie
+        name: categorie
+        widget: select
+        default: Magazine
+        options: ["Magazine", "Livre", "Catalogue & guide", "Fédérations & associations", "Créa & plaquette"]
+      - { label: "Couverture", name: couverture, widget: image, hint: "JPG en RVB, environ 1200 px de large. Le site l'optimise automatiquement." }
+      - { label: "Date de parution / d'ajout", name: date, widget: datetime, time_format: false, date_format: "DD/MM/YYYY", format: "YYYY-MM-DD", hint: "Sert à classer : la plus récente s'affiche en premier." }
+      - { label: "Afficher sur l'accueil", name: accueil, widget: boolean, default: false }
+      - { label: "Lien du flipbook", name: flipbook, widget: string, required: false, hint: "Facultatif. Adresse complète commençant par https://" }
+
+  - name: reglages
+    label: Réglages du site
+    editor: { preview: false }
+    files:
+      - name: infos
+        label: Coordonnées, chiffres et clients
+        file: src/data/site.json
+        format: json
+        fields:
+          - { label: Téléphone, name: telephone, widget: string }
+          - { label: Adresse, name: adresse, widget: string }
+          - { label: Horaires, name: horaires, widget: string }
+          - { label: "Lien LinkedIn", name: linkedin, widget: string, required: false }
+          - label: Chiffres clés (bandeau noir)
+            name: chiffres
+            widget: list
+            summary: "{{valeur}} — {{libelle}}"
+            fields:
+              - { label: Valeur, name: valeur, widget: string }
+              - { label: Texte, name: libelle, widget: string }
+          - { label: "Clients (« Ils nous font confiance »)", name: clients, widget: list, field: { label: Nom, name: nom, widget: string } }
+      - name: temoignages
+        label: Témoignages clients
+        file: src/data/temoignages.json
+        format: json
+        fields:
+          - label: Témoignages
+            name: liste
+            widget: list
+            summary: "{{auteur}} — {{fonction}}"
+            fields:
+              - { label: Citation, name: texte, widget: text }
+              - { label: Auteur, name: auteur, widget: string }
+              - { label: Fonction, name: fonction, widget: string }
