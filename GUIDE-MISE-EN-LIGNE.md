@@ -27,26 +27,17 @@ Espace admin (/admin)  →  GitHub (dépôt "mediaprestations-site", branche mai
 Au premier envoi, l'onglet **Actions** du dépôt construit le site et crée la branche `deploy`
 (environ 1 minute).
 
-## 2. Remplacer le WordPress par le nouveau site (une seule fois)
+## 2. Mise en ligne automatique (en place)
 
-Prérequis : l'étape 1 est faite et l'onglet **Actions** de GitHub montre une coche verte
-(la branche `deploy` existe).
+À chaque modification (admin ou GitHub Desktop), GitHub construit le site puis l'envoie
+par **SFTP** dans le dossier `www` de l'hébergement OVH (2 à 3 minutes).
+Suivi : onglet **Actions** du dépôt (coche verte = en ligne).
 
-1. **Sauvegarde (5 minutes, à ne pas sauter)**
-   - Avec FileZilla ou Cyberduck (identifiants : OVH › onglet **FTP - SSH**), téléchargez le dossier `www`
-     sur votre Mac (`SITE MEDIA PRESTATIONS/ancien-wordpress`).
-   - OVH › onglet **Bases de données** › base du WordPress › **…** › **Créer une sauvegarde**, puis téléchargez-la.
-2. **Vider le dossier `www`** (via FileZilla : tout sélectionner dans `www` › Supprimer).
-   OVH exige un dossier vide pour y associer Git.
-3. OVH › **Mes sites** › ligne `mediaprestations.fr` (dossier `www`) › **…** › **Associer Git**
-   - Dépôt : `git@github.com:mediaprestations/mediaprestations-site.git` (dépôt privé)
-   - Branche : **deploy**
-   - Suivez l'étape « clé SSH » proposée par OVH (à coller dans GitHub › Settings › Deploy keys).
-   - Copiez l'**URL de webhook** affichée en bas du formulaire, puis dans GitHub :
-     dépôt › Settings › Webhooks › Add webhook › collez l'URL (Content type : application/json).
-4. Le site s'affiche en quelques minutes sur https://mediaprestations.fr
-   (entre les étapes 2 et 3 le site est vide : faites-le à une heure calme).
-5. Plus tard, une fois rassuré : supprimez la base de données WordPress dans l'onglet **Bases de données**.
+Identifiants utilisés, rangés dans GitHub › Settings › Secrets and variables › Actions :
+`FTP_SERVER` (ftp.cluster102.hosting.ovh.net), `FTP_USERNAME` (mediapreh), `FTP_PASSWORD`.
+**Si vous changez le mot de passe FTP chez OVH, mettez aussi à jour `FTP_PASSWORD` dans GitHub.**
+
+Le Git d'OVH n'est plus utilisé (dissocié). La branche `deploy` du dépôt ne sert plus.
 
 ## 3. Se connecter à l'espace admin
 
