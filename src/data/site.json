@@ -4,10 +4,27 @@
   "horaires": "Du lundi au vendredi, 9 h – 18 h 30",
   "linkedin": "",
   "chiffres": [
-    { "valeur": "2005", "libelle": "Plus de vingt ans de mise en page à distance" },
-    { "valeur": "0", "libelle": "magazine rendu en retard à l'imprimeur" },
-    { "valeur": "~20", "libelle": "titres fidèles chaque mois" },
-    { "valeur": "24 h", "libelle": "pour recevoir votre devis" }
+    {
+      "valeur": "2005",
+      "libelle": "Plus de vingt ans de mise en page à distance"
+    },
+    {
+      "valeur": "0",
+      "libelle": "magazine rendu en retard à l'imprimeur"
+    },
+    {
+      "valeur": "24 h",
+      "libelle": "pour recevoir votre devis"
+    }
   ],
-  "clients": ["L'Esprit du Judo", "EcoRéseau", "Franchise & Concept(s)", "Parenthèse", "Vetoquinol", "Lafont Presse", "RC Média", "Popul'Art"]
+  "clients": [
+    "L'Esprit du Judo",
+    "EcoRéseau",
+    "Franchise & Concept(s)",
+    "Parenthèse",
+    "Vetoquinol",
+    "Lafont Presse",
+    "RC Média",
+    "Popul'Art"
+  ]
 }
