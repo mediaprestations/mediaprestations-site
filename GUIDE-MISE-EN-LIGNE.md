@@ -23,8 +23,6 @@ Espace admin (/admin)  →  GitHub (dépôt "mediaprestations-site", branche mai
    nommez-le exactement `.github/workflows/deploy.yml`, collez le contenu du fichier
    `workflow-deploy.yml` (présent dans ce dossier), puis *Commit changes*.
    (Ce fichier ne peut pas être déposé directement sur votre Mac pour des raisons de sécurité.)
-6. Ouvrez `public/admin/config.yml` et remplacez `COMPTE-GITHUB` par votre identifiant GitHub
-   (ligne `repo:`), puis *Commit* + *Push*.
 
 Au premier envoi, l'onglet **Actions** du dépôt construit le site et crée la branche `deploy`
 (environ 1 minute).
@@ -41,7 +39,7 @@ Prérequis : l'étape 1 est faite et l'onglet **Actions** de GitHub montre une c
 2. **Vider le dossier `www`** (via FileZilla : tout sélectionner dans `www` › Supprimer).
    OVH exige un dossier vide pour y associer Git.
 3. OVH › **Mes sites** › ligne `mediaprestations.fr` (dossier `www`) › **…** › **Associer Git**
-   - Dépôt : `git@github.com:VOTRE-COMPTE/mediaprestations-site.git` (dépôt privé)
+   - Dépôt : `git@github.com:mediaprestations/mediaprestations-site.git` (dépôt privé)
    - Branche : **deploy**
    - Suivez l'étape « clé SSH » proposée par OVH (à coller dans GitHub › Settings › Deploy keys).
    - Copiez l'**URL de webhook** affichée en bas du formulaire, puis dans GitHub :
