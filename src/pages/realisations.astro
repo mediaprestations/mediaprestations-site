@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import Cover from '../components/Cover.astro';
+import { getCollection } from 'astro:content';
+import { CATEGORIES } from '../content.config';
+
+const all = (await getCollection('realisations')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const cats = CATEGORIES.map((c) => ({ c, n: all.filter((r) => r.data.categorie === c).length })).filter((x) => x.n > 0);
+---
+<Base title="Réalisations — Média Prestations" description="Magazines, livres, catalogues et éditions mis en page par Média Prestations." page="realisations">
+  <section class="wrap head">
+    <h1 class="display">Réalisations</h1>
+    <p class="lead">Une sélection des derniers numéros sortis de l’atelier. Cliquez sur une couverture marquée « Flipbook » pour feuilleter le numéro.</p>
+  </section>
+
+  {cats.length > 1 && (
+    <div class="wrap filters" role="group" aria-label="Filtrer par catégorie">
+      <button type="button" class="on" data-f="*" aria-pressed="true">Tout <span>{all.length}</span></button>
+      {cats.map(({ c, n }) => <button type="button" data-f={c} aria-pressed="false">{c} <span>{n}</span></button>)}
+    </div>
+  )}
+
+  <section class="wrap" style="padding-bottom:112px">
+    <div class="grid-covers" id="grid">
+      {all.map((r, i) => <Cover item={r} eager={i < 4} />)}
+    </div>
+  </section>
+
+  <script>
+    const btns = document.querySelectorAll<HTMLButtonElement>('.filters button');
+    btns.forEach((b) => b.addEventListener('click', () => {
+      btns.forEach((x) => { x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', String(x === b)); });
+      const f = b.dataset.f;
+      document.querySelectorAll<HTMLElement>('#grid .cover').forEach((el) => { el.hidden = f !== '*' && el.dataset.cat !== f; });
+    }));
+  </script>
+</Base>
+
+<style>
+  .head { padding-block: 72px 32px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 24px; }
+  .head h1 { font-size: clamp(56px, 8vw, 88px); line-height: .95; letter-spacing: -.035em; }
+  .head .lead { max-width: 460px; margin: 0; }
+  .filters { display: flex; flex-wrap: wrap; gap: 10px; padding-bottom: 40px; }
+  .filters button { font: inherit; font-size: 15px; font-weight: 600; padding: 11px 18px; border: 2px solid var(--ink); background: #fff; color: var(--ink); cursor: pointer; }
+  .filters button span { opacity: .6; font-weight: 500; }
+  .filters button.on { background: var(--ink); color: #fff; }
+</style>

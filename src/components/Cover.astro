@@ -1,0 +1,24 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props { item: CollectionEntry<'realisations'>; eager?: boolean; }
+const { item, eager = false } = Astro.props;
+const d = item.data;
+const label = d.numero ? `${d.titre} n°${d.numero}` : d.titre;
+const href = d.flipbook || undefined;
+const Tag = href ? 'a' : 'div';
+---
+<Tag class="cover" href={href} target={href ? '_blank' : undefined} rel={href ? 'noopener' : undefined} data-cat={d.categorie}>
+  <div class="cover__img">
+    <Image src={d.couverture} alt={`Couverture de ${label}`} widths={[320, 480, 720]} sizes="(max-width: 600px) 45vw, 260px" loading={eager ? 'eager' : 'lazy'} />
+  </div>
+  <div>
+    <div class="cover__name">{d.titre}</div>
+    <div class="cover__meta">
+      {d.numero && <span>N°{d.numero}</span>}
+      <span>· {d.categorie}</span>
+      {href && <span class="tag">FLIPBOOK</span>}
+    </div>
+  </div>
+</Tag>

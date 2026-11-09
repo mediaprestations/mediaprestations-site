@@ -1,0 +1,67 @@
+---
+import '@fontsource-variable/bricolage-grotesque';
+import '@fontsource-variable/inter';
+import '../styles/global.css';
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
+import site from '../data/site.json';
+
+interface Props { title: string; description?: string; page?: 'accueil' | 'realisations' | 'autre'; }
+const { title, description = 'Média Prestations, studio de mise en page depuis 2005 : magazines, livres, catalogues et éditions numériques sous InDesign.', page = 'autre' } = Astro.props;
+const year = new Date().getFullYear();
+---
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)}>
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/png" href="/favicon.png">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="logo" href="/" aria-label="Média Prestations — accueil">
+        <Image src={logo} alt="Média Prestations — nous mettons vos idées en pages" height={120} />
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <nav class="nav" id="nav">
+        <a href="/#savoir-faire">Savoir-faire</a>
+        <a href="/realisations/" aria-current={page === 'realisations' ? 'page' : undefined}>Réalisations</a>
+        <a href="/#methode">Méthode</a>
+        <a href="/#avis">Ils en parlent</a>
+        <a class="btn btn--dark" href="/#contact">Demander un devis</a>
+      </nav>
+    </div>
+  </header>
+
+  <main><slot /></main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© {year} Média Prestations — {site.adresse} — {site.telephone}</span>
+      <nav>
+        <a href="/mentions-legales/">Mentions légales</a>
+        {site.linkedin && <a href={site.linkedin}>LinkedIn</a>}
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    const btn = document.querySelector('.menu-toggle');
+    const nav = document.getElementById('nav');
+    btn?.addEventListener('click', () => {
+      const open = nav!.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(open));
+    });
+    nav?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => { nav.classList.remove('open'); btn?.setAttribute('aria-expanded', 'false'); }));
+  </script>
+</body>
+</html>

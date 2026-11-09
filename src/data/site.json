@@ -1,0 +1,13 @@
+{
+  "telephone": "06 81 14 69 50",
+  "adresse": "13 Grande Rue, 78910 Orgerus",
+  "horaires": "Du lundi au vendredi, 9 h – 18 h 30",
+  "linkedin": "",
+  "chiffres": [
+    { "valeur": "2005", "libelle": "Plus de vingt ans de mise en page à distance" },
+    { "valeur": "0", "libelle": "magazine rendu en retard à l'imprimeur" },
+    { "valeur": "~20", "libelle": "titres fidèles chaque mois" },
+    { "valeur": "24 h", "libelle": "pour recevoir votre devis" }
+  ],
+  "clients": ["L'Esprit du Judo", "EcoRéseau", "Franchise & Concept(s)", "Parenthèse", "Vetoquinol", "Lafont Presse", "RC Média", "Popul'Art"]
+}

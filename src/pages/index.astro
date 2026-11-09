@@ -1,0 +1,238 @@
+---
+import Base from '../layouts/Base.astro';
+import Cover from '../components/Cover.astro';
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import site from '../data/site.json';
+import temoignages from '../data/temoignages.json';
+
+const all = (await getCollection('realisations')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const featured = all.filter((r) => r.data.accueil);
+const pool = featured.length >= 3 ? featured : all;
+const hero = pool.slice(0, 3);
+const latest = pool.slice(0, 5);
+
+const services = [
+  { n: '01', t: 'Mise en page & exé', d: 'Magazines, tabloïds, catalogues, packagings. Respect de votre charte, colorimétrie homogène, typographie soignée.', tags: 'InDesign · gabarits · styles' },
+  { n: '02', t: 'Création de maquette', d: 'Nouvelle formule ou nouveau titre : chartes graphiques, gabarits et maquettes prêtes à produire.', tags: 'Charte · grille · typographie' },
+  { n: '03', t: 'Éditions numériques', d: 'Flipbooks lisibles sur ordinateur, tablette et smartphone, enrichis de vidéos, liens et diaporamas.', tags: 'Flipbook · PDF web · interactif' },
+  { n: '04', t: 'Prépresse & BAT', d: 'PDF certifiés aux normes imprimeur, fonds perdus, repères, suivi jusqu’à la livraison.', tags: 'PDF/X · Fogra · contrôle' },
+];
+const steps = [
+  { n: '01', t: 'Brief & gabarits', d: 'Votre charte, vos contenus, votre calendrier imprimeur. On cale le chemin de fer ensemble.' },
+  { n: '02', t: 'Mise en page', d: 'Textes et images mis en forme sous InDesign, photos retouchées et harmonisées.' },
+  { n: '03', t: 'Corrections en direct', d: 'Écran partagé ou serveur sécurisé : vos corrections appliquées en temps réel.' },
+  { n: '04', t: 'BAT & imprimeur', d: 'PDF HD certifiés envoyés à l’imprimeur, suivi jusqu’à la sortie du numéro.' },
+];
+const tel = 'tel:+33' + site.telephone.replace(/\s/g, '').slice(1);
+---
+<Base title="Média Prestations — Studio de mise en page depuis 2005" page="accueil">
+
+  <section class="hero wrap">
+    <div class="hero__text">
+      <div class="eyebrow cmyk"><span style="background:#00A3E0"></span><span style="background:#E6007E"></span><span style="background:#FFE600"></span><span style="background:#111"></span>Studio de mise en page · depuis 2005</div>
+      <h1 class="display hero__title">Nous mettons vos idées <span class="hl">en pages.</span></h1>
+      <p class="lead">Magazines, livres, catalogues et éditions numériques. Un expert InDesign à vos côtés, du chemin de fer au PDF certifié chez l’imprimeur — dans les délais, à chaque numéro.</p>
+      <div class="hero__cta">
+        <a class="btn btn--accent" href="#contact">Parlons de votre projet →</a>
+        <a class="btn btn--ghost" href="/realisations/">Voir les réalisations</a>
+      </div>
+    </div>
+    <div class="hero__stack" aria-hidden="true">
+      <i class="crop tl"></i><i class="crop tr"></i><i class="crop bl"></i><i class="crop br"></i>
+      {hero.map((r, i) => (
+        <div class={`hero__cover c${i}`}>
+          <Image src={r.data.couverture} alt="" widths={[320, 600]} sizes="300px" loading="eager" />
+        </div>
+      ))}
+      <div class="hero__badge"><strong>5 000+</strong><span>numéros mis en page</span></div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap band__inner">
+      {site.chiffres.map((c) => (
+        <div><strong>{c.valeur}</strong><span>{c.libelle}</span></div>
+      ))}
+    </div>
+  </section>
+
+  <section id="savoir-faire" class="wrap section">
+    <div class="section__head">
+      <h2 class="display h2" style="max-width:640px">Un studio, quatre savoir-faire.</h2>
+      <p class="lead" style="max-width:440px;margin:0">Sur le long terme pour vos périodiques, ou en renfort ponctuel quand l’équipe est débordée.</p>
+    </div>
+    <div class="services">
+      {services.map((s) => (
+        <article>
+          <span class="services__n">{s.n}</span>
+          <h3 class="display">{s.t}</h3>
+          <p>{s.d}</p>
+          <span class="services__tags">{s.tags}</span>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="soft">
+    <div class="wrap section">
+      <div class="section__head">
+        <div><div class="eyebrow">Dernières parutions</div><h2 class="display h2" style="margin-top:12px">Sortis de l’atelier.</h2></div>
+        <a href="/realisations/" style="font-weight:600">Toutes les réalisations →</a>
+      </div>
+      <div class="grid-covers">
+        {latest.map((r) => <Cover item={r} />)}
+      </div>
+    </div>
+  </section>
+
+  <section id="methode" class="wrap section">
+    <h2 class="display h2" style="max-width:760px">De la maquette à l’impression, sans stress.</h2>
+    <div class="steps">
+      {steps.map((s) => (
+        <div><span class="display steps__n">{s.n}</span><h3>{s.t}</h3><p>{s.d}</p></div>
+      ))}
+    </div>
+  </section>
+
+  <section class="wrap" style="margin-bottom:112px">
+    <div class="offer">
+      <div>
+        <div class="eyebrow" style="color:var(--ink)">Offre dédiée</div>
+        <h3 class="display" style="font-size:clamp(30px,3.4vw,38px);margin:10px 0">Clubs, associations et fédérations</h3>
+        <p style="margin:0">Bulletins, programmes, affiches, plaquettes : une mise en page professionnelle, adaptée à votre budget et à votre calendrier.</p>
+      </div>
+      <a class="btn btn--dark" href="#contact">Devis sous 24 h →</a>
+    </div>
+  </section>
+
+  <section id="avis" class="dark">
+    <div class="wrap section">
+      <h2 class="display h2">Ils en parlent mieux que nous.</h2>
+      <div class="quotes">
+        {temoignages.liste.map((q) => (
+          <figure>
+            <blockquote>« {q.texte} »</blockquote>
+            <figcaption><strong>{q.auteur}</strong><span>{q.fonction}</span></figcaption>
+          </figure>
+        ))}
+      </div>
+      <div class="clients">
+        <span class="eyebrow" style="color:#bdbdbd">Ils nous font confiance</span>
+        {site.clients.map((c) => <span class="display clients__name">{c}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="wrap section contact">
+    <div class="contact__info">
+      <h2 class="display" style="font-size:clamp(44px,5.5vw,64px)">Un numéro à boucler ?</h2>
+      <p class="lead">Racontez-nous votre projet : périodicité, pagination, délais. Réponse et devis sous 24 h.</p>
+      <a class="display contact__tel" href={tel}>{site.telephone}</a>
+      <span>{site.horaires}</span>
+      <span>{site.adresse}</span>
+    </div>
+    <form class="form" method="post" action="/contact.php">
+      <p class="form__ok" hidden>Merci ! Votre demande est bien partie, réponse sous 24 h.</p>
+      <p class="form__err" hidden>Oups, l’envoi a échoué. Appelez-nous au {site.telephone}.</p>
+      <div class="form__row">
+        <label>Nom<input name="nom" type="text" autocomplete="name" required></label>
+        <label>E-mail<input name="email" type="email" autocomplete="email" required></label>
+      </div>
+      <label>Type de projet
+        <select name="type">
+          <option>Magazine / périodique</option><option>Livre</option><option>Catalogue, plaquette</option>
+          <option>Flipbook / édition numérique</option><option>Club, association, fédération</option><option>Renfort ponctuel</option>
+        </select>
+      </label>
+      <label>Votre projet<textarea name="message" rows="5" placeholder="Pagination, périodicité, date de remise imprimeur…" required></textarea></label>
+      <label class="hp" aria-hidden="true">Ne pas remplir<input name="site_web" type="text" tabindex="-1" autocomplete="off"></label>
+      <button class="btn btn--dark" type="submit">Envoyer ma demande</button>
+    </form>
+  </section>
+
+  <script>
+    const p = new URLSearchParams(location.search);
+    if (p.has('envoye')) document.querySelector<HTMLElement>(p.get('envoye') === '1' ? '.form__ok' : '.form__err')!.hidden = false;
+  </script>
+</Base>
+
+<style>
+  .hero { display: flex; flex-wrap: wrap; gap: 56px; align-items: center; padding-block: 72px 88px; }
+  .hero__text { flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 26px; }
+  .cmyk { display: flex; align-items: center; gap: 8px; }
+  .cmyk span { width: 10px; height: 10px; display: inline-block; }
+  .cmyk span:last-of-type { margin-right: 4px; }
+  .hero__title { font-size: clamp(52px, 7vw, 88px); line-height: .95; letter-spacing: -.035em; }
+  .hl { background: var(--accent); padding: 0 .12em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: 14px; }
+  .hero__stack { flex: 1 1 460px; min-width: 0; height: 560px; position: relative; }
+  .crop { position: absolute; width: 28px; height: 28px; border: 0 solid var(--ink); }
+  .tl { left: 0; top: 0; border-left-width: 1px; border-top-width: 1px; }
+  .tr { right: 0; top: 0; border-right-width: 1px; border-top-width: 1px; }
+  .bl { left: 0; bottom: 0; border-left-width: 1px; border-bottom-width: 1px; }
+  .br { right: 0; bottom: 0; border-right-width: 1px; border-bottom-width: 1px; }
+  .hero__cover { position: absolute; width: 46%; max-width: 300px; aspect-ratio: 3/4; box-shadow: 0 30px 60px rgba(0,0,0,.25); overflow: hidden; background: var(--soft); }
+  .hero__cover img { width: 100%; height: 100%; object-fit: cover; }
+  .c0 { left: 4%; top: 13%; transform: rotate(-7deg); z-index: 1; }
+  .c1 { left: 28%; top: 5%; transform: rotate(3deg); z-index: 2; }
+  .c2 { right: 3%; top: 21%; transform: rotate(9deg); z-index: 3; }
+  .hero__badge { position: absolute; left: 24px; bottom: 28px; z-index: 4; background: var(--ink); color: #fff; padding: 14px 18px; display: flex; flex-direction: column; }
+  .hero__badge strong { font-family: var(--display); font-size: 30px; line-height: 1.1; }
+  .hero__badge span { font-size: 12px; color: #cfcfcf; }
+  @media (max-width: 700px) { .hero { padding-block: 40px 56px; } .hero__stack { height: 400px; } }
+
+  .band { background: var(--ink); color: #fff; }
+  .band__inner { display: flex; flex-wrap: wrap; gap: 32px; justify-content: space-between; padding-block: 40px; }
+  .band__inner div { flex: 1 1 140px; display: flex; flex-direction: column; gap: 4px; }
+  .band strong { font-family: var(--display); font-size: 44px; color: var(--accent); line-height: 1.1; }
+  .band span { font-size: 15px; color: #d6d6d6; }
+
+  .section { padding-block: 104px; display: flex; flex-direction: column; gap: 44px; }
+  .section__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 24px; }
+  .soft { background: var(--soft); }
+
+  .services { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2px; background: var(--line); border: 2px solid var(--line); }
+  .services article { background: #fff; padding: 36px 32px 40px; display: flex; flex-direction: column; gap: 16px; }
+  .services h3 { font-size: 28px; line-height: 1.1; }
+  .services p { margin: 0; color: var(--muted); flex-grow: 1; }
+  .services__n { font-family: var(--display); font-weight: 600; color: #b55d00; }
+  .services__tags { font-size: 13px; font-weight: 600; border-top: 1px solid var(--line); padding-top: 14px; }
+
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 32px; }
+  .steps > div { border-top: 4px solid var(--ink); padding-top: 22px; }
+  .steps__n { font-size: 48px; color: var(--accent); }
+  .steps h3 { font-size: 20px; margin: 12px 0 8px; }
+  .steps p { margin: 0; font-size: 15px; color: var(--muted); }
+
+  .offer { background: var(--accent); padding: 48px; display: flex; flex-wrap: wrap; gap: 32px; align-items: center; justify-content: space-between; }
+  .offer > div { flex: 1 1 480px; }
+  @media (max-width: 600px) { .offer { padding: 32px 24px; } }
+
+  .dark { background: var(--ink); color: #fff; }
+  .quotes { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+  .quotes figure { margin: 0; border: 1px solid #3a3a3a; padding: 32px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
+  .quotes blockquote { margin: 0; font-family: var(--display); font-weight: 400; font-size: 21px; line-height: 1.4; }
+  .quotes figcaption { display: flex; flex-direction: column; }
+  .quotes strong { color: var(--accent); }
+  .quotes figcaption span { font-size: 14px; color: #bdbdbd; }
+  .clients { display: flex; flex-wrap: wrap; gap: 14px 44px; align-items: center; border-top: 1px solid #3a3a3a; padding-top: 32px; }
+  .clients__name { font-size: 20px; color: #e6e6e6; letter-spacing: -.01em; }
+
+  .contact { flex-direction: row; flex-wrap: wrap; gap: 64px; }
+  .contact__info { flex: 1 1 400px; display: flex; flex-direction: column; gap: 14px; color: var(--muted); }
+  .contact__info h2 { color: var(--ink); }
+  .contact__tel { font-size: 32px; text-decoration: none; color: var(--ink); margin-top: 8px; }
+  .form { flex: 1 1 460px; background: var(--soft); padding: 36px; display: flex; flex-direction: column; gap: 18px; }
+  .form__row { display: flex; flex-wrap: wrap; gap: 18px; }
+  .form__row label { flex: 1 1 200px; }
+  .form label { display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 600; }
+  .form input, .form select, .form textarea { font: inherit; font-weight: 400; font-size: 16px; padding: 14px; border: 1px solid #a8a8a8; background: #fff; border-radius: 0; }
+  .form textarea { resize: vertical; }
+  .form button { cursor: pointer; font: inherit; font-weight: 700; }
+  .form__ok, .form__err { margin: 0; padding: 14px 16px; font-weight: 600; }
+  .form__ok { background: #e3f3e6; }
+  .form__err { background: #fde7e1; }
+  .hp { position: absolute; left: -9999px; }
+  @media (max-width: 600px) { .form { padding: 24px; } }
+</style>
