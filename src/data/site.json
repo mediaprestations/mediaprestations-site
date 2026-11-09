@@ -26,5 +26,32 @@
     "Lafont Presse",
     "RC Média",
     "Popul'Art"
+  ],
+  "liens_titres": [
+    {
+      "titre": "L'Esprit du Judo",
+      "lien": "https://boutique.lespritdujudo.com",
+      "texte": "S'abonner"
+    },
+    {
+      "titre": "L'Esprit du Judo Kids",
+      "lien": "https://boutique.lespritdujudo.com",
+      "texte": "S'abonner"
+    },
+    {
+      "titre": "EcoRéseau Business",
+      "lien": "https://www.ecoreseau.fr/abonnement",
+      "texte": "S'abonner"
+    },
+    {
+      "titre": "Franchise & Concept(s)",
+      "lien": "https://www.franchise-concepts.fr/abonnement/",
+      "texte": "S'abonner"
+    },
+    {
+      "titre": "Parenthèse",
+      "lien": "https://www.myparenthese.fr/abonnement/",
+      "texte": "S'abonner"
+    }
   ]
 }

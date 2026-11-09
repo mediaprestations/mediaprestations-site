@@ -21,6 +21,7 @@ const realisations = defineCollection({
       date: z.coerce.date(),
       accueil: z.boolean().default(false),
       flipbook: z.string().optional().default(''),
+      lien: z.string().optional().default(''),
     }),
 });
 

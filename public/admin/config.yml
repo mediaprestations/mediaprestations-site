@@ -48,6 +48,7 @@ collections:
       - { label: "Date de parution / d'ajout", name: date, widget: datetime, time_format: false, date_format: "DD/MM/YYYY", format: "YYYY-MM-DD", hint: "Sert à classer : la plus récente s'affiche en premier." }
       - { label: "Afficher sur l'accueil", name: accueil, widget: boolean, default: false }
       - { label: "Lien du flipbook", name: flipbook, widget: string, required: false, hint: "Facultatif. Adresse complète commençant par https://" }
+      - { label: "Autre lien pour ce numéro", name: lien, widget: string, required: false, hint: "Facultatif. Remplace le lien d'abonnement défini pour le titre dans Réglages." }
 
   - name: reglages
     label: Réglages du site
@@ -70,6 +71,16 @@ collections:
               - { label: Valeur, name: valeur, widget: string }
               - { label: Texte, name: libelle, widget: string }
           - { label: "Clients (« Ils nous font confiance »)", name: clients, widget: list, field: { label: Nom, name: nom, widget: string } }
+          - label: "Liens par titre (abonnement, boutique…)"
+            name: liens_titres
+            widget: list
+            required: false
+            hint: "S'applique automatiquement à toutes les couvertures du titre (écrit comme dans la fiche, majuscules et accents ignorés)."
+            summary: "{{titre}} → {{texte}}"
+            fields:
+              - { label: "Titre du support", name: titre, widget: string }
+              - { label: "Lien", name: lien, widget: string, hint: "Adresse complète commençant par https://" }
+              - { label: "Texte de l'étiquette", name: texte, widget: string, default: "S'abonner" }
       - name: temoignages
         label: Témoignages clients
         file: src/data/temoignages.json

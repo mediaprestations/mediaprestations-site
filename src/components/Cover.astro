@@ -1,15 +1,24 @@
 ---
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import site from '../data/site.json';
 
 interface Props { item: CollectionEntry<'realisations'>; eager?: boolean; }
 const { item, eager = false } = Astro.props;
 const d = item.data;
 const label = d.numero ? `${d.titre} n°${d.numero}` : d.titre;
-const href = d.flipbook || undefined;
+
+// Lien de la couverture, par ordre de priorité :
+// 1. lien propre à ce numéro, 2. flipbook, 3. lien défini pour le titre dans les Réglages (ex. abonnement)
+const norm = (t: string) => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[’']/g, "'").trim().toLowerCase();
+const parTitre = (site.liens_titres ?? []).find((l) => l.titre && norm(l.titre) === norm(d.titre));
+let href = '', tag = '';
+if (d.lien) { href = d.lien; tag = 'VOIR'; }
+else if (d.flipbook) { href = d.flipbook; tag = 'FLIPBOOK'; }
+else if (parTitre?.lien) { href = parTitre.lien; tag = (parTitre.texte || 'Voir').toUpperCase(); }
 const Tag = href ? 'a' : 'div';
 ---
-<Tag class="cover" href={href} target={href ? '_blank' : undefined} rel={href ? 'noopener' : undefined} data-cat={d.categorie}>
+<Tag class="cover" href={href || undefined} target={href ? '_blank' : undefined} rel={href ? 'noopener' : undefined} data-cat={d.categorie}>
   <div class="cover__img">
     <Image src={d.couverture} alt={`Couverture de ${label}`} widths={[320, 480, 720]} sizes="(max-width: 600px) 45vw, 260px" loading={eager ? 'eager' : 'lazy'} />
   </div>
@@ -18,7 +27,7 @@ const Tag = href ? 'a' : 'div';
     <div class="cover__meta">
       {d.numero && <span>N°{d.numero}</span>}
       <span>· {d.categorie}</span>
-      {href && <span class="tag">FLIPBOOK</span>}
+      {tag && <span class="tag">{tag} ↗</span>}
     </div>
   </div>
 </Tag>
