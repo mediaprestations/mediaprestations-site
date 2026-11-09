@@ -147,12 +147,20 @@ const tel = 'tel:+33' + site.telephone.replace(/\s/g, '').slice(1);
       </label>
       <label>Votre projet<textarea name="message" rows="5" placeholder="Pagination, périodicité, date de remise imprimeur…" required></textarea></label>
       <label class="hp" aria-hidden="true">Ne pas remplir<input name="site_web" type="text" tabindex="-1" autocomplete="off"></label>
+      <input type="hidden" name="verif" value="">
       <button class="btn btn--dark" type="submit">Envoyer ma demande</button>
     </form>
   </section>
 
   <script>
     const p = new URLSearchParams(location.search);
+    // Anti-robots : un vrai visiteur a JavaScript et met plus de quelques secondes à remplir le formulaire.
+    const debut = Date.now();
+    const form = document.querySelector<HTMLFormElement>('form.form');
+    form?.addEventListener('submit', () => {
+      const v = form.querySelector<HTMLInputElement>('input[name="verif"]');
+      if (v) v.value = 'mp' + Math.round((Date.now() - debut) / 1000);
+    });
     if (p.has('envoye')) document.querySelector<HTMLElement>(p.get('envoye') === '1' ? '.form__ok' : '.form__err')!.hidden = false;
   </script>
 </Base>

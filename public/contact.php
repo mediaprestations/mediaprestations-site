@@ -13,8 +13,16 @@ function retour($ok) {
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') retour(false);
 
-// Piège à robots : ce champ caché doit rester vide.
+// --- Protection anti-robots (on fait semblant que tout va bien pour ne pas les renseigner) ---
+// 1. Champ piège invisible : doit rester vide.
 if (!empty($_POST['site_web'])) retour(true);
+// 2. Jeton posé par JavaScript au moment de l'envoi, avec le temps passé sur la page.
+if (!preg_match('/^mp(\d+)$/', $_POST['verif'] ?? '', $m) || (int)$m[1] < 3) retour(true);
+// 3. Le type de projet doit être l'un de ceux proposés dans la liste.
+$types = ['Magazine / périodique', 'Livre', 'Catalogue, plaquette', 'Flipbook / édition numérique', 'Club, association, fédération', 'Renfort ponctuel'];
+if (!in_array($_POST['type'] ?? '', $types, true)) retour(true);
+// 4. Trop de liens dans le message = publicité.
+if (preg_match_all('#https?://|www\.#i', $_POST['message'] ?? '') > 2) retour(true);
 
 $nom     = trim(strip_tags($_POST['nom'] ?? ''));
 $email   = trim($_POST['email'] ?? '');
